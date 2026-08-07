@@ -1,0 +1,7 @@
+Wishes:
+
+Control R - reload
+Control Z - Back a page
+Control V - forward a page
+
+Z and V would be taking the place of the arrow on the top left in normal browsers. 
