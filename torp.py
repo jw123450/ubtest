@@ -465,12 +465,6 @@ class ProxyHandler(BaseHTTPRequestHandler):
         body_data = self.rfile.read(content_length) if content_length > 0 else None
 
         request = urllib.request.Request(target_url, data=body_data, method=method)
-        # Ensure Accept header is present for upstream requests
-        if not request.headers.get("Accept"):
-            request.add_header("Accept", "*/*")
-        # Explicitly set Host header to avoid issues with some servers
-        host_header = urlparse(target_url).netloc
-        request.add_header("Host", host_header)
 
         passthrough_headers = (
             "Accept",
@@ -480,15 +474,11 @@ class ProxyHandler(BaseHTTPRequestHandler):
             "Range",
             "If-Modified-Since",
             "If-None-Match",
-            "Connection",
         )
         for header in passthrough_headers:
             value = self.headers.get(header)
             if value:
                 request.add_header(header, value)
-        # Ensure the upstream server closes the connection after response
-        # Use keep-alive for upstream connections to avoid premature closure
-        request.add_header("Connection", "keep-alive")
 
         request.add_header(
             "User-Agent",
