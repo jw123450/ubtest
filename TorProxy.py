@@ -16,7 +16,7 @@ import secrets
 
 import socks #backend on Socks5 @ localhost:9050 or 127.0.0.1:9050
 import socket
-import requests
+#import requests
 
 
 try:
@@ -365,8 +365,30 @@ SHELL_HTML = """<!DOCTYPE html>
     });
 
     navigate('duckduckgo');
-  </script>
+    </script>
 </body>
+<!-- added missing closing body tag for proper HTML structure -->
+<script>
+    // Keyboard shortcuts: Ctrl+R reload, Ctrl+Z back, Ctrl+V forward
+    window.addEventListener('keydown', function(e) {
+        if (e.ctrlKey && !e.shiftKey && !e.altKey) {
+            switch (String.fromCharCode(e.keyCode).toLowerCase()) {
+                case 'r':
+                    e.preventDefault();
+                    frame.contentWindow.location.reload();
+                    break;
+                case 'z':
+                    e.preventDefault();
+                    if (frame.contentWindow.history.length > 1) frame.contentWindow.history.back();
+                    break;
+                case 'v':
+                    e.preventDefault();
+                    frame.contentWindow.history.forward();
+                    break;
+            }
+        }
+    });
+</script>
 </html>
 """
 
